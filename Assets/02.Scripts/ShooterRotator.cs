@@ -12,6 +12,7 @@ public class ShooterRotator : MonoBehaviour {
     private RotateState state = RotateState.Idle;
     public float verticalRotateSpeed = 360f;
     public float horizontalRotateSpeed = 360f;
+    public BallShooter ballShooter; //볼슈터스크립트 가져와서 껐다 켰다 하기위해
 
     private void Update()
     {
@@ -45,6 +46,7 @@ public class ShooterRotator : MonoBehaviour {
                 else if (Input.GetButtonUp("Fire1"))
                 {
                     state = RotateState.Ready;
+                    ballShooter.enabled = true;
                 }
 
             break;
@@ -52,9 +54,13 @@ public class ShooterRotator : MonoBehaviour {
             break;
 
         }
+    }
 
-
-
+    private void OnEnable()
+    {
+        transform.rotation = Quaternion.identity; //0도 0도 0도 회전값 리셋
+        state = RotateState.Idle;
+        ballShooter.enabled = false;
     }
 
 
