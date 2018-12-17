@@ -48,9 +48,10 @@ public class Ball : MonoBehaviour
 
         //Ball의 자식으로 들어있는 파티클과 오디오는 잠시동안 자식이 아닌 상태를 만들어준다.
         explosionParticle.transform.parent = null; //자식의 부모를 없앤다
-        explosionParticle.Play(); //파티클 직접 재생
+        explosionParticle.Play(); //파괴되는 순간 재생. 파티클 직접 재생
         explosionAudio.Play();      //오디오도 직접 재생   
 
+        //자기자신의 파티클에 점찍어 나오는 duration의 러닝타임을 말한다
         Destroy(explosionParticle.gameObject, explosionParticle.duration);
         Destroy(gameObject);        //자기자신을 파괴
     }

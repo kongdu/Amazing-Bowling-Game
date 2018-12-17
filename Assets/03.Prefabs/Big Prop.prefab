@@ -125,5 +125,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 10
-  explosionParticle: {fileID: 0}
+  explosionParticle: {fileID: 198781421844737950, guid: 4f71303bb5aff7e4fb997389f5ac83ac,
+    type: 2}
   hp: 50

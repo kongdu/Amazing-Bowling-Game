@@ -6,12 +6,12 @@ using UnityEngine.UI;
 //볼 친구를 찍어내서 힘을줘서 날려버리는 역할
 //볼이 힘을 채우는 상태를 보여줄 UI슬라이더가 필요
 public class BallShooter : MonoBehaviour {
-    public Rigidbody ball;
-    public Transform firePos;
+    public Rigidbody ball; //찍어낼때 바로 리짓바디로 가져와서 힘을 주기위해
+    public Transform firePos; //볼 생성되는 위치
     public Slider powerSlider;
     public AudioSource shootingAudio;
-    public AudioClip fireClip;
-    public AudioClip chargingClip;
+    public AudioClip fireClip; //폭탄쏠때
+    public AudioClip chargingClip; //파워 모을때
 
     public float minForce; //시작힘; 누르자마자 바로 지정되는 힘
     public float maxForce; //최대힘
@@ -23,7 +23,7 @@ public class BallShooter : MonoBehaviour {
 
     private bool fired; //발사했는지 체크하기위한 플래그
 
-    //컴포넌트가 켜져있으면 자동으로 발동
+    //컴포넌트가 켜져있으면 매번 자동으로 발동
     private void OnEnable() 
     {
         currentForce = minForce;
@@ -48,27 +48,28 @@ public class BallShooter : MonoBehaviour {
         if(currentForce >= maxForce && !fired)
         {
             currentForce = maxForce;
-            Fired();
+            Fire();
          
         }else if (Input.GetButtonDown("Fire1"))
-        //CASE 2: 버튼 누르는 순간
+        //CASE 2: 버튼 누르는 순간 (처음 눌렀을 때)
         {
             //fired = false; 연사가능
             currentForce = minForce;
             shootingAudio.clip = chargingClip;
             shootingAudio.Play();
-        }else if (Input.GetButton("Fire1"))
+        }else if (Input.GetButton("Fire1") && !fired)
          //CASE 3: 버튼 누르고 있는 동안
         {
             currentForce = currentForce + chargingSpeed * Time.deltaTime;
             powerSlider.value = currentForce;
         }else if(Input.GetButtonUp("Fire1") && !fired)
+         //CASE 4: 버튼에서 손을 뗀 순간
         {
-            Fired();
+            Fire();
         }
         
     }
-    private void Fired()
+    private void Fire()
     {
         fired = true;
         Rigidbody ballInstance = Instantiate(ball, firePos.position, firePos.rotation);
